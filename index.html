@@ -4,8 +4,17 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>OSIM Library | نظام الاستعارة</title>
 <style>
+/* OHI typography — Arabic: Noor | English/Latin: Montserrat */
+@font-face{font-family:"Noor";src:url("fonts/AGCREGULAR(2).TTF") format("truetype");font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:"Noor";src:url("fonts/ARBFONTS-AGCLIGHT(2).TTF") format("truetype");font-weight:300;font-style:normal;font-display:swap;}
+@font-face{font-family:"Noor";src:url("fonts/ARBFONTS-AGCBOLD(1).TTF") format("truetype");font-weight:600 900;font-style:normal;font-display:swap;}
+@font-face{font-family:"Montserrat";src:url("fonts/MONTSERRAT-REGULAR(1).TTF") format("truetype");font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:"Montserrat";src:url("fonts/MONTSERRAT-SEMIBOLD(1).TTF") format("truetype");font-weight:600;font-style:normal;font-display:swap;}
+@font-face{font-family:"Montserrat";src:url("fonts/MONTSERRAT-BOLD(1).TTF") format("truetype");font-weight:700;font-style:normal;font-display:swap;}
+@font-face{font-family:"Montserrat";src:url("fonts/MONTSERRAT-BLACK(1).TTF") format("truetype");font-weight:900;font-style:normal;font-display:swap;}
 :root{--t:#1F6174;--o:#DA5D37;--g:#EBB43E;--c:#F1E1BC;--bg:#f3f7f6;--ok:#237a55;--bad:#a83b32}
-*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial;background:linear-gradient(135deg,#1f6174,#164b5a);color:#173f4c}.wrap{max-width:1100px;margin:auto;padding:22px}.brand{text-align:center;color:#fff;padding:10px 0 22px}.brand .logo{width:min(360px,82vw);height:auto;display:block;margin:0 auto 8px;filter:drop-shadow(0 8px 18px #0004)}.brand h1{margin:0;font-size:30px;letter-spacing:.2px}.brand p{margin:7px 0 0;color:var(--c);font-size:14px}.card{border:1px solid #ffffff33}.panel>h2{color:var(--t);margin-top:4px}.box h3{color:var(--t)}.card{background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 20px 55px #0004}.tabs{display:flex;gap:8px;padding:12px;background:#edf4f2;justify-content:center;border-bottom:1px solid #dce8e5}.tab{border:0;border-radius:12px;padding:12px 22px;background:#fff;color:var(--t);font-weight:bold;cursor:pointer}.tab.active{background:var(--t);color:#fff}.panel{padding:25px}.hidden{display:none}.library-label{display:inline-block;background:#e7f3ef;color:var(--t);padding:7px 12px;border-radius:20px;font-weight:bold;font-size:13px;margin-bottom:6px}.notice{background:#fff7df;border-right:4px solid var(--g);padding:12px;border-radius:10px;margin-bottom:18px}.search{display:flex;gap:10px}.search input,.form input{width:100%;padding:14px;border:1px solid #ccd9d7;border-radius:12px;font-size:15px}.btn{border:0;border-radius:11px;padding:12px 16px;font-weight:bold;cursor:pointer}.primary{background:var(--o);color:#fff}.secondary{background:var(--t);color:#fff}.results{display:grid;gap:12px;margin-top:18px}.book{border:1px solid #dbe5e3;border-radius:16px;padding:16px;display:flex;justify-content:space-between;align-items:center;gap:14px}.book h3{margin:0 0 6px;font-size:17px}.muted{color:#71858b;font-size:13px}.badge{display:inline-block;background:#e7f3ef;color:#27735f;border-radius:20px;padding:5px 9px;font-size:12px;margin-top:7px}.form{display:grid;gap:10px;margin-top:14px}.box{background:#f7faf9;border-radius:15px;padding:16px;margin-top:18px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{text-align:center;border:1px solid #dde8e5;border-radius:14px;padding:14px}.stat b{display:block;font-size:23px;color:var(--t)}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.ok{background:#e6f6ed;color:var(--ok)}.bad{background:#fdebea;color:var(--bad)}.status{font-weight:bold}.adminbar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}.req{border:1px solid #dbe5e3;border-radius:15px;padding:15px;margin:10px 0;background:#fff}.small{font-size:12px;color:#71858b}.danger{background:#f7e9e8;color:#a83b32}.success{background:#e7f5ed;color:#237a55}.loading{text-align:center;padding:20px}.pill{padding:5px 9px;border-radius:20px;font-size:12px;font-weight:bold}.pending{background:#fff5d7;color:#916b00}.approved{background:#e5f5ec;color:#237a55}.rejected{background:#fde9e8;color:#a83b32}
+*{box-sizing:border-box}body{margin:0;font-family:"Noor",Tahoma,Arial;background:linear-gradient(135deg,#1f6174,#164b5a);color:#173f4c}.wrap{max-width:1100px;margin:auto;padding:22px}.brand{text-align:center;color:#fff;padding:10px 0 22px}.brand .logo{width:min(360px,82vw);height:auto;display:block;margin:0 auto 8px;filter:drop-shadow(0 8px 18px #0004)}.brand h1{margin:0;font-size:30px;letter-spacing:.2px}.brand p{margin:7px 0 0;color:var(--c);font-size:14px}.card{border:1px solid #ffffff33}.panel>h2{color:var(--t);margin-top:4px}.box h3{color:var(--t)}.card{background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 20px 55px #0004}.tabs{display:flex;gap:8px;padding:12px;background:#edf4f2;justify-content:center;border-bottom:1px solid #dce8e5}.tab{border:0;border-radius:12px;padding:12px 22px;background:#fff;color:var(--t);font-weight:bold;cursor:pointer}.tab.active{background:var(--t);color:#fff}.panel{padding:25px}.hidden{display:none}.library-label{display:inline-block;background:#e7f3ef;color:var(--t);padding:7px 12px;border-radius:20px;font-weight:bold;font-size:13px;margin-bottom:6px}.notice{background:#fff7df;border-right:4px solid var(--g);padding:12px;border-radius:10px;margin-bottom:18px}.search{display:flex;gap:10px}.search input,.form input{width:100%;padding:14px;border:1px solid #ccd9d7;border-radius:12px;font-size:15px}.btn{border:0;border-radius:11px;padding:12px 16px;font-weight:bold;cursor:pointer}.primary{background:var(--o);color:#fff}.secondary{background:var(--t);color:#fff}.results{display:grid;gap:12px;margin-top:18px}.book{border:1px solid #dbe5e3;border-radius:16px;padding:16px;display:flex;justify-content:space-between;align-items:center;gap:14px}.book h3{margin:0 0 6px;font-size:17px}.muted{color:#71858b;font-size:13px}.badge{display:inline-block;background:#e7f3ef;color:#27735f;border-radius:20px;padding:5px 9px;font-size:12px;margin-top:7px}.form{display:grid;gap:10px;margin-top:14px}.box{background:#f7faf9;border-radius:15px;padding:16px;margin-top:18px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{text-align:center;border:1px solid #dde8e5;border-radius:14px;padding:14px}.stat b{display:block;font-size:23px;color:var(--t)}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.ok{background:#e6f6ed;color:var(--ok)}.bad{background:#fdebea;color:var(--bad)}.status{font-weight:bold}.adminbar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}.req{border:1px solid #dbe5e3;border-radius:15px;padding:15px;margin:10px 0;background:#fff}.small{font-size:12px;color:#71858b}.danger{background:#f7e9e8;color:#a83b32}.success{background:#e7f5ed;color:#237a55}.loading{text-align:center;padding:20px}.pill{padding:5px 9px;border-radius:20px;font-size:12px;font-weight:bold}.pending{background:#fff5d7;color:#916b00}.approved{background:#e5f5ec;color:#237a55}.rejected{background:#fde9e8;color:#a83b32}
+.font-ar{font-family:"Noor",Tahoma,Arial,sans-serif !important;} .font-en{font-family:"Montserrat",Arial,sans-serif !important;} input,textarea{font-family:"Noor",Tahoma,Arial,sans-serif;} input.input-en,textarea.input-en{font-family:"Montserrat",Arial,sans-serif;}
 @media(max-width:650px){.search,.book{flex-direction:column;align-items:stretch}.stats{grid-template-columns:1fr}.panel{padding:18px}.tabs{flex-direction:column}}
 </style>
 </head>
@@ -65,5 +74,66 @@ function adminLogin(){
 function tab(id,b){document.querySelectorAll('section').forEach(x=>x.classList.add('hidden'));$(id).classList.remove('hidden');document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');if(id==='admin')loadRequests()}
 function showAdminLogin(){const p=prompt('أدخل كلمة مرور المسؤول:');if(p==='Amoons.98'){const b=document.createElement('button');b.className='tab';b.textContent='لوحة المسؤول';b.onclick=function(){tab('admin',b)};document.querySelector('.tabs').appendChild(b);tab('admin',b)}else if(p!==null)alert('كلمة المرور غير صحيحة.')}
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+</script>
+<script>
+(function(){
+  const AR=/[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+  const EN=/[A-Za-z]/;
+  const SKIP=new Set(['SCRIPT','STYLE','NOSCRIPT','SVG']);
+  function wrapText(node){
+    if(!node || node.nodeType!==Node.TEXT_NODE || !node.nodeValue.trim()) return;
+    const parent=node.parentElement;
+    if(!parent || SKIP.has(parent.tagName) || parent.closest('.font-ar,.font-en')) return;
+    const text=node.nodeValue;
+    if(!AR.test(text) && !EN.test(text)) return;
+    const frag=document.createDocumentFragment();
+    let buf='', type=null;
+    function flush(){
+      if(!buf) return;
+      if(type){
+        const span=document.createElement('span');
+        span.className=type==='ar'?'font-ar':'font-en';
+        span.textContent=buf;
+        frag.appendChild(span);
+      }else frag.appendChild(document.createTextNode(buf));
+      buf='';
+    }
+    for(const ch of text){
+      const t=AR.test(ch)?'ar':EN.test(ch)?'en':type;
+      if((t==='ar'||t==='en') && type && t!==type) flush();
+      if(t==='ar'||t==='en') type=t;
+      buf+=ch;
+      if(t!=='ar'&&t!=='en') type=null;
+    }
+    flush();
+    if(frag.childNodes.length) node.replaceWith(frag);
+  }
+  function process(root){
+    if(!root) return;
+    if(root.nodeType===Node.TEXT_NODE){wrapText(root);return;}
+    if(SKIP.has(root.tagName)) return;
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+    const nodes=[]; let n;
+    while(n=walker.nextNode()) nodes.push(n);
+    nodes.forEach(wrapText);
+  }
+  function setupInputs(root=document){
+    root.querySelectorAll?.('input,textarea').forEach(el=>{
+      const update=()=>el.classList.toggle('input-en',EN.test(el.value)&&!AR.test(el.value));
+      el.addEventListener('input',update); update();
+    });
+  }
+  document.addEventListener('DOMContentLoaded',()=>{
+    process(document.body);
+    setupInputs(document);
+    const obs=new MutationObserver(muts=>{
+      obs.disconnect();
+      muts.forEach(m=>m.addedNodes.forEach(n=>process(n)));
+      setupInputs(document);
+      obs.observe(document.body,{childList:true,subtree:true});
+    });
+    obs.observe(document.body,{childList:true,subtree:true});
+  });
+})();
 </script>
 </body></html>
