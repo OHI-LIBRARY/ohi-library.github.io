@@ -38,7 +38,6 @@
 <div class="adminbar"><h2>لوحة المسؤول</h2><button class="btn secondary" onclick="loadRequests()">تحديث الطلبات</button></div>
 <div class="notice">من هنا تراجع طلبات الاستعارة وتوافق أو ترفض. عند الموافقة يتم إنشاء سجل استعارة تلقائيًا لمدة 14 يومًا.</div>
 <div class="stats"><div class="stat"><b id="bc">0</b>كتاب</div><div class="stat"><b id="rc">0</b>طلب</div><div class="stat"><b id="oc">0</b>متأخر</div><div class="stat"><b>14</b>يوم</div></div>
-<div class="box"><h3>📚 الإعارات</h3><div class="small" style="margin-bottom:10px">الإعارات الحالية بعد الموافقة على طلبات الاستعارة. عند استلام الكتاب اضغط على زر تسجيل الإرجاع.</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"></div><div id="loans"><div class="loading">جاري تحميل الإعارات...</div></div></div>
 <div class="box"><h3>🔴 المتأخرات</h3><div class="small" style="margin-bottom:10px">عرض جميع الإعارات التي تجاوزت تاريخ الاستحقاق ولم يتم تسجيل إرجاعها.</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn danger" type="button" onclick="loadOverdue()">عرض المتأخرات</button><button class="btn secondary" type="button" onclick="printOverdueReport()">🖨️ طباعة تقرير المتأخرات</button></div><div id="overdue"></div></div>
 <div id="reqs" class="box"><div class="loading">جاري تحميل الطلبات...</div></div>
 </section>
@@ -145,10 +144,10 @@ async function printOverdueReport(){
 }
 
 
-async function adminReturn(id){if(!confirm('تأكيد تسجيل إرجاع الكتاب؟'))return;const r=await api({action:'returnBook',loanId:id});alert(r.message||'تم التنفيذ');if(r.success){loadLoans();loadOverdue()}}
+async function adminReturn(id){if(!confirm('تأكيد تسجيل إرجاع الكتاب؟'))return;const r=await api({action:'returnBook',loanId:id});alert(r.message||'تم التنفيذ');if(r.success){loadOverdue()}}
 
-async function adminReturnFromOverdue(id){if(!confirm('هل أنت متأكد من تسجيل إرجاع هذا الكتاب؟'))return;const r=await api({action:'returnBook',loanId:id});alert(r.message||'تم التنفيذ');if(r.success){loadOverdue();loadLoans()}}
-async function decide(id,type){let note='';if(type==='reject'){note=prompt('سبب الرفض (اختياري):')||''}else{if(!confirm('تأكيد الموافقة على الطلب؟'))return}try{const res=await api({action:type==='approve'?'approveRequest':'rejectRequest',requestId:id,note});alert(res.message||(res.success?'تم التنفيذ':'تعذر التنفيذ'));if(res.success){loadRequests();loadLoans();loadOverdue()}}catch(e){alert('تعذر الاتصال بالنظام')}}
+async function adminReturnFromOverdue(id){if(!confirm('هل أنت متأكد من تسجيل إرجاع هذا الكتاب؟'))return;const r=await api({action:'returnBook',loanId:id});alert(r.message||'تم التنفيذ');if(r.success){loadOverdue()}}
+async function decide(id,type){let note='';if(type==='reject'){note=prompt('سبب الرفض (اختياري):')||''}else{if(!confirm('تأكيد الموافقة على الطلب؟'))return}try{const res=await api({action:type==='approve'?'approveRequest':'rejectRequest',requestId:id,note});alert(res.message||(res.success?'تم التنفيذ':'تعذر التنفيذ'));if(res.success){loadRequests();loadOverdue()}}catch(e){alert('تعذر الاتصال بالنظام')}}
 function statusPill(s){s=String(s||'');let c=s==='Approved'?'approved':s==='Rejected'?'rejected':'pending';let t=s==='Approved'?'مقبول':s==='Rejected'?'مرفوض':'قيد المراجعة';return `<span class="pill ${c}">${t}</span>`}
 function fmt(v){if(!v)return '-';let d=new Date(v);return isNaN(d)?esc(v):d.toLocaleString('ar-EG')}
 function adminLogin(){
@@ -164,7 +163,7 @@ function adminLogin(){
     alert('كلمة المرور غير صحيحة.');
   }
 }
-function tab(id,b){document.querySelectorAll('section').forEach(x=>x.classList.add('hidden'));$(id).classList.remove('hidden');document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');if(id==='admin'){loadRequests();loadLoans();loadOverdue()}}
+function tab(id,b){document.querySelectorAll('section').forEach(x=>x.classList.add('hidden'));$(id).classList.remove('hidden');document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');if(id==='admin'){loadRequests();loadOverdue()}}
 function showAdminLogin(){const p=prompt('أدخل كلمة مرور المسؤول:');if(p==='Amoons.98'){const b=document.createElement('button');b.className='tab';b.textContent='لوحة المسؤول';b.onclick=function(){tab('admin',b)};document.querySelector('.tabs').appendChild(b);tab('admin',b)}else if(p!==null)alert('كلمة المرور غير صحيحة.')}
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 </script>
