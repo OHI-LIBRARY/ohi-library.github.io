@@ -223,7 +223,32 @@ function adminLogin(){
   }
 }
 function tab(id,b){document.querySelectorAll('section').forEach(x=>x.classList.add('hidden'));$(id).classList.remove('hidden');document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');if(id==='admin'){loadOverdue();startAdminRequestPolling()}else{stopAdminRequestPolling()}}
-function showAdminLogin(){const p=prompt('أدخل كلمة مرور المسؤول:');if(p==='Amoons.98'){const b=document.createElement('button');b.className='tab';b.textContent='لوحة المسؤول';b.onclick=function(){tab('admin',b)};document.querySelector('.tabs').appendChild(b);tab('admin',b)}else if(p!==null)alert('كلمة المرور غير صحيحة.')}
+function showAdminLogin(){
+  const wrap=document.createElement('div');
+  wrap.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px';
+  wrap.innerHTML=`<div style="background:#fff;width:min(380px,100%);padding:24px;border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.25);direction:rtl">
+    <h3 style="margin:0 0 16px">🔐 دخول المسؤول</h3>
+    <label style="display:block;margin-bottom:7px;font-weight:700">كلمة المرور</label>
+    <div style="position:relative">
+      <input id="adminPassInput" type="password" autocomplete="current-password" style="width:100%;box-sizing:border-box;padding:11px 42px 11px 12px;border:1px solid #ccc;border-radius:8px;font-size:16px" placeholder="أدخل كلمة المرور">
+      <button type="button" id="toggleAdminPass" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:none;cursor:pointer;font-size:18px">👁️</button>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:16px">
+      <button type="button" id="adminPassOk" class="btn primary">دخول</button>
+      <button type="button" id="adminPassCancel" class="btn secondary">إلغاء</button>
+    </div>
+  </div>`;
+  document.body.appendChild(wrap);
+  const input=wrap.querySelector('#adminPassInput');
+  const toggle=wrap.querySelector('#toggleAdminPass');
+  toggle.onclick=()=>{const show=input.type==='password';input.type=show?'text':'password';toggle.textContent=show?'🙈':'👁️';};
+  const close=()=>wrap.remove();
+  wrap.querySelector('#adminPassCancel').onclick=close;
+  const submit=()=>{const p=input.value;if(!p)return;if(p==='Amoons.98'){close();const b=document.createElement('button');b.className='tab';b.textContent='لوحة المسؤول';b.onclick=function(){tab('admin',b)};document.querySelector('.tabs').appendChild(b);tab('admin',b)}else{alert('كلمة المرور غير صحيحة.');input.select();}};
+  wrap.querySelector('#adminPassOk').onclick=submit;
+  input.addEventListener('keydown',e=>{if(e.key==='Enter')submit();if(e.key==='Escape')close();});
+  setTimeout(()=>input.focus(),50);
+}
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 </script>
 <script>
