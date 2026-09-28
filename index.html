@@ -38,7 +38,7 @@
 <div class="adminbar"><h2>لوحة المسؤول</h2><button class="btn secondary" onclick="loadRequests()">تحديث الطلبات</button></div>
 <div class="notice">من هنا تراجع طلبات الاستعارة وتوافق أو ترفض. عند الموافقة يتم إنشاء سجل استعارة تلقائيًا لمدة 14 يومًا.</div>
 <div class="stats"><div class="stat"><b id="bc">0</b>كتاب</div><div class="stat"><b id="rc">0</b>طلب</div><div class="stat"><b id="oc">0</b>متأخر</div><div class="stat"><b>14</b>يوم</div></div>
-<div class="box"><h3>📚 الإعارات</h3><div class="small" style="margin-bottom:10px">الإعارات الحالية بعد الموافقة على طلبات الاستعارة. عند استلام الكتاب اضغط على زر تسجيل الإرجاع.</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn secondary" type="button" onclick="printCurrentLoansReport()">🖨️ طباعة تقرير الإعارات الحالية</button></div><div id="loans"><div class="loading">جاري تحميل الإعارات...</div></div></div>
+<div class="box"><h3>📚 الإعارات</h3><div class="small" style="margin-bottom:10px">الإعارات الحالية بعد الموافقة على طلبات الاستعارة. عند استلام الكتاب اضغط على زر تسجيل الإرجاع.</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"></div><div id="loans"><div class="loading">جاري تحميل الإعارات...</div></div></div>
 <div class="box"><h3>🔴 المتأخرات</h3><div class="small" style="margin-bottom:10px">عرض جميع الإعارات التي تجاوزت تاريخ الاستحقاق ولم يتم تسجيل إرجاعها.</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn danger" type="button" onclick="loadOverdue()">عرض المتأخرات</button><button class="btn secondary" type="button" onclick="printOverdueReport()">🖨️ طباعة تقرير المتأخرات</button></div><div id="overdue"></div></div>
 <div id="reqs" class="box"><div class="loading">جاري تحميل الطلبات...</div></div>
 </section>
@@ -124,22 +124,7 @@ function printLibraryReport(title, rows, columns, countLabel){
   setTimeout(()=>w.print(),500);
 }
 
-async function printCurrentLoansReport(){
-  try{
-    const res=await api({action:'getLoans'});
-    if(!res.success)throw Error();
-    const arr=(res.loans||[]).filter(l=>!l.ReturnDate).reverse();
-    const now=new Date();
-    const columns=['رقم الاستعارة','رقم الطلب','اسم المستعير','كود المستعير','الكتاب','تاريخ الاستعارة','تاريخ الاستحقاق','الحالة'];
-    const rows=arr.map(l=>{
-      const overdue=l.DueDate&&new Date(l.DueDate)<now;
-      return [l.LoanID||'',l.RequestID||'',l.StudentName||'',l.StudentID||'',l.BookTitle||'',fmt(l.LoanDate),fmt(l.DueDate),overdue?'متأخر':'سارية'];
-    });
-    printLibraryReport('تقرير الإعارات الحالية',rows,columns,'إجمالي الإعارات الحالية');
-  }catch(e){
-    alert('تعذر تجهيز تقرير الإعارات الحالية.');
-  }
-}
+async 
 
 async function printOverdueReport(){
   try{
