@@ -210,16 +210,41 @@ async function decide(id,type){let note='';if(type==='reject'){note=prompt('سب
 function statusPill(s){s=String(s||'');let c=s==='Approved'?'approved':s==='Rejected'?'rejected':'pending';let t=s==='Approved'?'مقبول':s==='Rejected'?'مرفوض':'قيد المراجعة';return `<span class="pill ${c}">${t}</span>`}
 function fmt(v){if(!v)return '-';let d=new Date(v);return isNaN(d)?esc(v):d.toLocaleString('ar-EG')}
 function adminLogin(){
-  const pass=prompt('أدخل كلمة مرور المسؤول:');
-  if(pass==='Amoons.98'){
-    const adminBtn=document.createElement('button');
-    adminBtn.className='tab';
-    adminBtn.textContent='لوحة المسؤول';
-    adminBtn.onclick=function(){tab('admin',this)};
-    document.querySelector('.tabs').appendChild(adminBtn);
-    adminBtn.click();
-  }else if(pass!==null){
-    alert('كلمة المرور غير صحيحة.');
+  let modal=document.getElementById('adminLoginModal');
+  if(!modal){
+    modal=document.createElement('div');
+    modal.id='adminLoginModal';
+    modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:99999;padding:20px';
+    modal.innerHTML=`<div dir="rtl" style="width:min(380px,100%);background:#fff;border-radius:14px;padding:22px;box-shadow:0 15px 45px rgba(0,0,0,.25)">
+      <h3 style="margin:0 0 16px;color:#1f6174">دخول المسؤول</h3>
+      <div style="position:relative">
+        <input id="adminPassInput" type="password" autocomplete="current-password" placeholder="أدخل كلمة المرور" style="width:100%;box-sizing:border-box;padding:12px 45px 12px 12px;border:1px solid #ddd;border-radius:8px;font-size:16px">
+        <button type="button" id="toggleAdminPass" aria-label="إظهار كلمة المرور" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:transparent;cursor:pointer;font-size:20px">👁️</button>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px">
+        <button type="button" id="adminLoginOk" class="btn primary">دخول</button>
+        <button type="button" id="adminLoginCancel" class="btn secondary">إلغاء</button>
+      </div>
+    </div>`;
+    document.body.appendChild(modal);
+    const input=modal.querySelector('#adminPassInput');
+    modal.querySelector('#toggleAdminPass').onclick=()=>{input.type=input.type==='password'?'text':'password';modal.querySelector('#toggleAdminPass').textContent=input.type==='password'?'👁️':'🙈'};
+    const close=()=>modal.remove();
+    modal.querySelector('#adminLoginCancel').onclick=close;
+    modal.querySelector('#adminLoginOk').onclick=()=>{
+      const pass=input.value;
+      if(pass==='Amoons.98'){
+        close();
+        const adminBtn=document.createElement('button');
+        adminBtn.className='tab';
+        adminBtn.textContent='لوحة المسؤول';
+        adminBtn.onclick=function(){tab('admin',this)};
+        document.querySelector('.tabs').appendChild(adminBtn);
+        adminBtn.click();
+      }else{alert('كلمة المرور غير صحيحة.');input.focus();input.select();}
+    };
+    input.addEventListener('keydown',e=>{if(e.key==='Enter')modal.querySelector('#adminLoginOk').click();if(e.key==='Escape')close()});
+    setTimeout(()=>input.focus(),50);
   }
 }
 function tab(id,b){document.querySelectorAll('section').forEach(x=>x.classList.add('hidden'));$(id).classList.remove('hidden');document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');if(id==='admin'){loadOverdue();startAdminRequestPolling()}else{stopAdminRequestPolling()}}
